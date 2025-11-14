@@ -291,31 +291,6 @@ const Footer = () => {
 // --- PAGES: pages/HomePage.tsx ---
 
 const HomePage = () => {
-    const mockCompanies = [
-      { name: 'Innovation A/S', municipality: 'København', industry: 'Teknologi', employees: 75 },
-      { name: 'Byggeri & Sønner', municipality: 'Aarhus', industry: 'Byggeri', employees: 120 },
-      { name: 'Gourmet MadMarked', municipality: 'Odense', industry: 'Fødevarer', employees: 45 },
-      { name: 'Logistik Partner ApS', municipality: 'Aalborg', industry: 'Transport', employees: 210 },
-      { name: 'Dansk Design Hjem', municipality: 'København', industry: 'Detail', employees: 30 },
-      { name: 'Grøn Energi Nu', municipality: 'Esbjerg', industry: 'Energi', employees: 90 },
-      { name: 'Medicinal Gruppen', municipality: 'Odense', industry: 'Sundhed', employees: 350 },
-      { name: 'FinansHuset A/S', municipality: 'Aarhus', industry: 'Finans', employees: 60 },
-      { name: 'Kreativ Kommunikation', municipality: 'København', industry: 'Marketing', employees: 22 },
-      { name: 'Jysk Maskinfabrik', municipality: 'Herning', industry: 'Produktion', employees: 155 },
-      { name: 'Sjællands Serviceudlejning', municipality: 'Roskilde', industry: 'Service', employees: 18 },
-      { name: 'Fyns Fiskeeksport', municipality: 'Svendborg', industry: 'Fødevarer', employees: 88 },
-      { name: 'Tech StartUp ApS', municipality: 'Aalborg', industry: 'Teknologi', employees: 9 },
-      { name: 'Arkitektfirmaet Fremtid', municipality: 'Aarhus', industry: 'Byggeri', employees: 40 },
-      { name: 'Nordisk Møbelkunst', municipality: 'København', industry: 'Detail', employees: 115 },
-    ];
-
-    const employeeRanges = {
-      '1-10': [1, 10],
-      '11-50': [11, 50],
-      '51-200': [51, 200],
-      '201+': [201, Infinity],
-    };
-
     const HeroSection = () => (
       <section className="relative bg-gray-900 text-white h-[60vh] md:h-[70vh] flex items-center justify-center text-center overflow-hidden">
         <video 
@@ -335,118 +310,6 @@ const HomePage = () => {
         </div>
       </section>
     );
-
-    const SearchSection = () => {
-        const [searchName, setSearchName] = useState('');
-        const [selectedMunicipality, setSelectedMunicipality] = useState('');
-        const [selectedIndustry, setSelectedIndustry] = useState('');
-        const [selectedEmployees, setSelectedEmployees] = useState('');
-        const [filteredCompanies, setFilteredCompanies] = useState(mockCompanies);
-
-        const municipalities = useMemo(() => [...new Set(mockCompanies.map(c => c.municipality))].sort(), []);
-        const industries = useMemo(() => [...new Set(mockCompanies.map(c => c.industry))].sort(), []);
-
-        const handleSearch = () => {
-            let results = mockCompanies;
-
-            if (searchName) {
-                results = results.filter(c => c.name.toLowerCase().includes(searchName.toLowerCase()));
-            }
-            if (selectedMunicipality) {
-                results = results.filter(c => c.municipality === selectedMunicipality);
-            }
-            if (selectedIndustry) {
-                results = results.filter(c => c.industry === selectedIndustry);
-            }
-            if (selectedEmployees) {
-                const [min, max] = employeeRanges[selectedEmployees];
-                results = results.filter(c => c.employees >= min && c.employees <= max);
-            }
-
-            setFilteredCompanies(results);
-        };
-
-        const handleReset = () => {
-            setSearchName('');
-            setSelectedMunicipality('');
-            setSelectedIndustry('');
-            setSelectedEmployees('');
-            setFilteredCompanies(mockCompanies);
-        };
-
-        return (
-            <section id="søg" className="py-20 bg-slate-100">
-                <div className="container mx-auto px-6">
-                    <h2 className="text-3xl font-bold text-blue-800 mb-8 text-center">Find vinder-virksomheder</h2>
-                    <div className="bg-white p-8 rounded-lg shadow-lg mb-12">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <input
-                                type="text"
-                                placeholder="Søg virksomhedsnavn..."
-                                value={searchName}
-                                onChange={(e) => setSearchName(e.target.value)}
-                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            />
-                            <select
-                                value={selectedMunicipality}
-                                onChange={(e) => setSelectedMunicipality(e.target.value)}
-                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            >
-                                <option value="">Alle kommuner</option>
-                                {municipalities.map(m => <option key={m} value={m}>{m}</option>)}
-                            </select>
-                            <select
-                                value={selectedIndustry}
-                                onChange={(e) => setSelectedIndustry(e.target.value)}
-                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            >
-                                <option value="">Alle brancher</option>
-                                {industries.map(i => <option key={i} value={i}>{i}</option>)}
-                            </select>
-                            <select
-                                value={selectedEmployees}
-                                onChange={(e) => setSelectedEmployees(e.target.value)}
-                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            >
-                                <option value="">Antal medarbejdere</option>
-                                {Object.keys(employeeRanges).map(range => <option key={range} value={range}>{range}</option>)}
-                            </select>
-                        </div>
-                        <div className="flex justify-center mt-6 gap-4">
-                            <button
-                                onClick={handleSearch}
-                                className="flex items-center justify-center bg-blue-700 text-white font-semibold py-3 px-8 rounded-md hover:bg-blue-800 transition-colors"
-                            >
-                                <MagnifyingGlassIcon className="w-5 h-5 mr-2" />
-                                Søg
-                            </button>
-                            <button
-                                onClick={handleReset}
-                                className="flex items-center justify-center bg-slate-500 text-white font-semibold py-3 px-8 rounded-md hover:bg-slate-600 transition-colors"
-                            >
-                                Nulstil
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredCompanies.length > 0 ? (
-                            filteredCompanies.map(company => (
-                                <div key={company.name} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-                                    <h3 className="text-xl font-bold text-blue-900">{company.name}</h3>
-                                    <p className="text-slate-600 mt-2">{company.industry}</p>
-                                    <p className="text-slate-500 text-sm">{company.municipality}</p>
-                                    <p className="text-slate-500 text-sm mt-1">{company.employees} medarbejdere</p>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-center text-slate-500 col-span-full">Ingen resultater fundet.</p>
-                        )}
-                    </div>
-                </div>
-            </section>
-        );
-    };
 
     const DiplomaSection = () => (
       <section className="py-20 bg-slate-50">
@@ -514,7 +377,6 @@ const HomePage = () => {
     return (
         <div className="animate-fade-in">
             <HeroSection />
-            <SearchSection />
             <CriteriaSection />
             <DiplomaSection />
             <NgoSection />
@@ -658,6 +520,143 @@ const OmOsPage = () => {
     const [activeProduct, setActiveProduct] = useState(productsData[0].id);
     const activeProductData = productsData.find(p => p.id === activeProduct);
 
+    const mockCompanies = [
+      { name: 'Innovation A/S', municipality: 'København', industry: 'Teknologi', employees: 75 },
+      { name: 'Byggeri & Sønner', municipality: 'Aarhus', industry: 'Byggeri', employees: 120 },
+      { name: 'Gourmet MadMarked', municipality: 'Odense', industry: 'Fødevarer', employees: 45 },
+      { name: 'Logistik Partner ApS', municipality: 'Aalborg', industry: 'Transport', employees: 210 },
+      { name: 'Dansk Design Hjem', municipality: 'København', industry: 'Detail', employees: 30 },
+      { name: 'Grøn Energi Nu', municipality: 'Esbjerg', industry: 'Energi', employees: 90 },
+      { name: 'Medicinal Gruppen', municipality: 'Odense', industry: 'Sundhed', employees: 350 },
+      { name: 'FinansHuset A/S', municipality: 'Aarhus', industry: 'Finans', employees: 60 },
+      { name: 'Kreativ Kommunikation', municipality: 'København', industry: 'Marketing', employees: 22 },
+      { name: 'Jysk Maskinfabrik', municipality: 'Herning', industry: 'Produktion', employees: 155 },
+      { name: 'Sjællands Serviceudlejning', municipality: 'Roskilde', industry: 'Service', employees: 18 },
+      { name: 'Fyns Fiskeeksport', municipality: 'Svendborg', industry: 'Fødevarer', employees: 88 },
+      { name: 'Tech StartUp ApS', municipality: 'Aalborg', industry: 'Teknologi', employees: 9 },
+      { name: 'Arkitektfirmaet Fremtid', municipality: 'Aarhus', industry: 'Byggeri', employees: 40 },
+      { name: 'Nordisk Møbelkunst', municipality: 'København', industry: 'Detail', employees: 115 },
+    ];
+
+    const employeeRanges = {
+      '1-10': [1, 10],
+      '11-50': [11, 50],
+      '51-200': [51, 200],
+      '201+': [201, Infinity],
+    };
+
+    const SearchSection = () => {
+        const [searchName, setSearchName] = useState('');
+        const [selectedMunicipality, setSelectedMunicipality] = useState('');
+        const [selectedIndustry, setSelectedIndustry] = useState('');
+        const [selectedEmployees, setSelectedEmployees] = useState('');
+        const [filteredCompanies, setFilteredCompanies] = useState(mockCompanies);
+
+        const municipalities = useMemo(() => [...new Set(mockCompanies.map(c => c.municipality))].sort(), []);
+        const industries = useMemo(() => [...new Set(mockCompanies.map(c => c.industry))].sort(), []);
+
+        const handleSearch = () => {
+            let results = mockCompanies;
+
+            if (searchName) {
+                results = results.filter(c => c.name.toLowerCase().includes(searchName.toLowerCase()));
+            }
+            if (selectedMunicipality) {
+                results = results.filter(c => c.municipality === selectedMunicipality);
+            }
+            if (selectedIndustry) {
+                results = results.filter(c => c.industry === selectedIndustry);
+            }
+            if (selectedEmployees) {
+                const [min, max] = employeeRanges[selectedEmployees];
+                results = results.filter(c => c.employees >= min && c.employees <= max);
+            }
+
+            setFilteredCompanies(results);
+        };
+
+        const handleReset = () => {
+            setSearchName('');
+            setSelectedMunicipality('');
+            setSelectedIndustry('');
+            setSelectedEmployees('');
+            setFilteredCompanies(mockCompanies);
+        };
+
+        return (
+            <section id="søg" className="py-20 bg-slate-100">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-3xl font-bold text-blue-800 mb-8 text-center">Find vinder-virksomheder</h2>
+                    <div className="bg-white p-8 rounded-lg shadow-lg mb-12">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <input
+                                type="text"
+                                placeholder="Søg virksomhedsnavn..."
+                                value={searchName}
+                                onChange={(e) => setSearchName(e.target.value)}
+                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                            <select
+                                value={selectedMunicipality}
+                                onChange={(e) => setSelectedMunicipality(e.target.value)}
+                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Alle kommuner</option>
+                                {municipalities.map(m => <option key={m} value={m}>{m}</option>)}
+                            </select>
+                            <select
+                                value={selectedIndustry}
+                                onChange={(e) => setSelectedIndustry(e.target.value)}
+                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Alle brancher</option>
+                                {industries.map(i => <option key={i} value={i}>{i}</option>)}
+                            </select>
+                            <select
+                                value={selectedEmployees}
+                                onChange={(e) => setSelectedEmployees(e.target.value)}
+                                className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Antal medarbejdere</option>
+                                {Object.keys(employeeRanges).map(range => <option key={range} value={range}>{range}</option>)}
+                            </select>
+                        </div>
+                        <div className="flex justify-center mt-6 gap-4">
+                            <button
+                                onClick={handleSearch}
+                                className="flex items-center justify-center bg-blue-700 text-white font-semibold py-3 px-8 rounded-md hover:bg-blue-800 transition-colors"
+                            >
+                                <MagnifyingGlassIcon className="w-5 h-5 mr-2" />
+                                Søg
+                            </button>
+                            <button
+                                onClick={handleReset}
+                                className="flex items-center justify-center bg-slate-500 text-white font-semibold py-3 px-8 rounded-md hover:bg-slate-600 transition-colors"
+                            >
+                                Nulstil
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredCompanies.length > 0 ? (
+                            filteredCompanies.map(company => (
+                                <div key={company.name} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                                    <h3 className="text-xl font-bold text-blue-900">{company.name}</h3>
+                                    <p className="text-slate-600 mt-2">{company.industry}</p>
+                                    <p className="text-slate-500 text-sm">{company.municipality}</p>
+                                    <p className="text-slate-500 text-sm mt-1">{company.employees} medarbejdere</p>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center text-slate-500 col-span-full">Ingen resultater fundet.</p>
+                        )}
+                    </div>
+                </div>
+            </section>
+        );
+    };
+
     return (
         <div className="bg-white animate-fade-in">
             {/* Hero Section */}
@@ -716,6 +715,7 @@ const OmOsPage = () => {
                     </div>
                 </div>
             </section>
+            <SearchSection />
         </div>
     );
 };
