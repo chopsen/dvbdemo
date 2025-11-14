@@ -17,6 +17,23 @@
   }
 }
 </script>
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+  .animate-fade-in-down { animation: fade-in-down 0.6s ease-out forwards; }
+  .animate-fade-in-up { animation: fade-in-up 0.6s ease-out 0.2s forwards; }
+</style>
 </head>
   <body class="bg-slate-50">
     <div id="root"></div>
@@ -94,7 +111,7 @@ const MapPinIcon = ({ className }) => (
 
 const TicketIcon = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75a2.25 2.25 0 0 1-2.25 2.25H9.75a2.25 2.25 0 0 1-2.25-2.25V6m-3 0a2.25 2.25 0 0 0-2.25 2.25v1.5a2.25 2.25 0 0 0 2.25 2.25h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.5a2.25 2.25 0 0 0-2.25-2.25H6.75Zm9 0a2.25 2.25 0 0 0-2.25 2.25v1.5a2.25 2.25 0 0 0 2.25 2.25h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.5a2.25 2.25 0 0 0-2.25-2.25h-1.5Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
     </svg>
 );
 
@@ -165,7 +182,6 @@ const Header = () => {
     { href: '#om-os', text: 'Om os' },
     { href: '#showroom', text: 'Showroom' },
     { href: '#succeshistorier', text: 'Succeshistorier' },
-    { href: '#produkter', text: 'Produkter og Ydelser' },
     { href: '#gala', text: 'Galla' },
     { href: '#faq', text: 'FAQ' },
     { href: '#kontakt', text: 'Kontakt' },
@@ -179,9 +195,16 @@ const Header = () => {
 
   return (
     <header className="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#" onClick={(e) => handleNavigate(e, '#')} className="flex items-center text-2xl font-bold text-blue-800">
-          DVB
+      <div className="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="#" onClick={(e) => handleNavigate(e, '#')} className="flex items-center">
+            <div>
+              <div className="text-4xl font-extrabold text-blue-950 tracking-widest leading-none">DVB</div>
+              <div className="flex flex-col text-[0.6rem] font-bold text-blue-950 leading-tight mt-1.5">
+                <span>DANSK</span>
+                <span>VIRKSOMHEDS</span>
+                <span>BELØNNER</span>
+              </div>
+            </div>
         </a>
         <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
           {navLinks.map((link) => (
@@ -302,10 +325,10 @@ const HomePage = () => {
           playsInline 
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
         >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-gold-particles-in-the-air-40072-large.mp4" type="video/mp4" />
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-a-manager-and-a-man-looking-at-a-laptop-4131-large.mp4" type="video/mp4" />
           Din browser understøtter ikke video-tagget.
         </video>
-        <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+        <div className="absolute inset-0 bg-black opacity-60 z-10"></div>
         <div className="relative z-20 p-6">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 animate-fade-in-down">Danmarks Bedste Virksomheder</h1>
           <p className="text-lg md:text-2xl max-w-3xl mx-auto text-slate-200 animate-fade-in-up">En udmærkelse for Danmarks mest succesfulde og veldrevne virksomheder.</p>
@@ -489,21 +512,27 @@ const HomePage = () => {
     );
 
     return (
-        <>
+        <div className="animate-fade-in">
             <HeroSection />
             <SearchSection />
             <CriteriaSection />
             <DiplomaSection />
             <NgoSection />
-        </>
+        </div>
     );
 };
 
 // --- PAGES: pages/GalaPage.tsx ---
 
 const GalaPage = () => {
+  const [invitationRequested, setInvitationRequested] = useState(false);
+
+  const handleRequestInvitation = () => {
+    setInvitationRequested(true);
+  };
+
   return (
-    <div className="bg-white">
+    <div className="bg-white animate-fade-in">
       {/* Hero Section */}
       <section className="relative h-[50vh] bg-cover bg-center text-white" style={{ backgroundImage: "url('https://picsum.photos/1920/1080?random=10')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center p-6">
@@ -522,23 +551,30 @@ const GalaPage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12 mt-20 text-center">
-            <div className="flex flex-col items-center">
-              <CalendarDaysIcon className="w-12 h-12 text-blue-600 mb-4"/>
-              <h3 className="text-xl font-semibold mb-2">Dato & Tid</h3>
-              <p className="text-slate-600">Fredag d. 15. November 2024<br/>Kl. 18:00 - 01:00</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <MapPinIcon className="w-12 h-12 text-blue-600 mb-4"/>
-              <h3 className="text-xl font-semibold mb-2">Lokation</h3>
-              <p className="text-slate-600">Tivoli Hotel & Congress Center<br/>København</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <TicketIcon className="w-12 h-12 text-blue-600 mb-4"/>
-              <h3 className="text-xl font-semibold mb-2">Billetter</h3>
-              <p className="text-slate-600">Eksklusivt for inviterede vindere.<br/>Information udsendes direkte.</p>
-            </div>
+          <div className="mt-20 max-w-lg mx-auto bg-slate-50 p-8 rounded-xl shadow-lg text-center">
+            <TicketIcon className="w-16 h-16 text-blue-600 mb-6 mx-auto"/>
+            <h3 className="text-2xl font-bold mb-4 text-blue-900">Sikr din plads til årets fest</h3>
+            <p className="text-slate-600 mb-8">
+              Deltagelse er forbeholdt inviterede vindere af "Danmarks Bedste Virksomheder®". Modtag din personlige invitation og bliv klar til en uforglemmelig aften.
+            </p>
+            <button
+              onClick={handleRequestInvitation}
+              disabled={invitationRequested}
+              className={`w-full max-w-xs mx-auto text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 ${
+                invitationRequested
+                  ? 'bg-green-600 cursor-not-allowed'
+                  : 'bg-blue-700 hover:bg-blue-800'
+              }`}
+            >
+              {invitationRequested ? 'Anmodning modtaget!' : 'Anmod om invitation'}
+            </button>
+            {invitationRequested && (
+              <p className="text-green-700 mt-4 text-sm animate-fade-in">
+                Tak! Vi vender tilbage hurtigst muligt via e-mail.
+              </p>
+            )}
           </div>
+
         </div>
       </section>
 
@@ -575,153 +611,7 @@ const GalaPage = () => {
 
 // --- PAGES: pages/OmOsPage.tsx ---
 
-const OmOsPage = () => (
-  <div className="bg-white">
-    <section className="py-20">
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 className="text-4xl font-bold text-blue-800 mb-4">Hvem er vi?</h1>
-                <p className="mb-4 text-slate-600 leading-relaxed">DVB ApS er en uafhængig virksomhed, der analyserer det danske erhvervsliv for at identificere og hylde de mest fremtrædende virksomheder. Vores mission er at fremhæve de firmaer, der via stærkt købmandskab og innovation skaber vækst og positive resultater.</p>
-                <p className="text-slate-600 leading-relaxed">Gennem en grundig analyse af offentligt tilgængelige regnskabsdata finder vi frem til de virksomheder, der lever op til vores høje krav for at modtage "Danmarks Bedste Virksomheder®" udmærkelsen.</p>
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-2xl">
-                <img src="https://picsum.photos/800/600?random=1" alt="Team i møde" className="w-full h-full object-cover" />
-            </div>
-        </div>
-    </section>
-  </div>
-);
-
-// --- PAGES: pages/ShowroomPage.tsx ---
-
-const ShowroomPage = () => {
-    const mockWinners = [
-      { id: 1, name: 'Innovation A/S', logoUrl: 'https://via.placeholder.com/150/0284C7/FFFFFF?text=I', industry: 'Teknologi', municipality: 'København', awards: [2024, 2023], website: 'https://example.com' },
-      { id: 2, name: 'Byggeri & Sønner', logoUrl: 'https://via.placeholder.com/150/16A34A/FFFFFF?text=B', industry: 'Byggeri', municipality: 'Aarhus', awards: [2024], website: 'https://example.com' },
-      { id: 3, name: 'Gourmet MadMarked', logoUrl: 'https://via.placeholder.com/150/DC2626/FFFFFF?text=G', industry: 'Fødevarer', municipality: 'Odense', awards: [2024, 2022], website: 'https://example.com' },
-      { id: 4, name: 'Logistik Partner ApS', logoUrl: 'https://via.placeholder.com/150/F97316/FFFFFF?text=L', industry: 'Transport', municipality: 'Aalborg', awards: [2023], website: 'https://example.com' },
-      { id: 5, name: 'Dansk Design Hjem', logoUrl: 'https://via.placeholder.com/150/4F46E5/FFFFFF?text=D', industry: 'Detail', municipality: 'København', awards: [2024], website: 'https://example.com' },
-      { id: 6, name: 'Grøn Energi Nu', logoUrl: 'https://via.placeholder.com/150/16A34A/FFFFFF?text=G', industry: 'Energi', municipality: 'Esbjerg', awards: [2023, 2022], website: 'https://example.com' },
-      { id: 7, name: 'Medicinal Gruppen', logoUrl: 'https://via.placeholder.com/150/0284C7/FFFFFF?text=M', industry: 'Sundhed', municipality: 'Odense', awards: [2024], website: 'https://example.com' },
-      { id: 8, name: 'FinansHuset A/S', logoUrl: 'https://via.placeholder.com/150/CA8A04/FFFFFF?text=F', industry: 'Finans', municipality: 'Aarhus', awards: [2022], website: 'https://example.com' },
-      { id: 9, name: 'Kreativ Kommunikation', logoUrl: 'https://via.placeholder.com/150/BE185D/FFFFFF?text=K', industry: 'Marketing', municipality: 'København', awards: [2024], website: 'https://example.com' },
-      { id: 10, name: 'Jysk Maskinfabrik', logoUrl: 'https://via.placeholder.com/150/4B5563/FFFFFF?text=J', industry: 'Produktion', municipality: 'Herning', awards: [2023], website: 'https://example.com' },
-    ];
-
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedIndustry, setSelectedIndustry] = useState('');
-    const [selectedMunicipality, setSelectedMunicipality] = useState('');
-    const [selectedYear, setSelectedYear] = useState('');
-
-    const industries = useMemo(() => [...new Set(mockWinners.map(w => w.industry))].sort(), []);
-    const municipalities = useMemo(() => [...new Set(mockWinners.map(w => w.municipality))].sort(), []);
-    const years = useMemo(() => [...new Set(mockWinners.flatMap(w => w.awards))].sort((a, b) => b - a), []);
-
-    const filteredWinners = useMemo(() => {
-        return mockWinners.filter(winner => {
-            const nameMatch = searchTerm === '' || winner.name.toLowerCase().includes(searchTerm.toLowerCase());
-            const industryMatch = selectedIndustry === '' || winner.industry === selectedIndustry;
-            const municipalityMatch = selectedMunicipality === '' || winner.municipality === selectedMunicipality;
-            const yearMatch = selectedYear === '' || winner.awards.includes(parseInt(selectedYear, 10));
-            return nameMatch && industryMatch && municipalityMatch && yearMatch;
-        });
-    }, [searchTerm, selectedIndustry, selectedMunicipality, selectedYear]);
-
-    return (
-        <div className="bg-slate-50 min-h-[70vh]">
-            <section className="container mx-auto px-6 py-16">
-                <h1 className="text-4xl font-bold text-blue-800 mb-4 text-center">Showroom</h1>
-                <p className="text-slate-600 text-lg max-w-2xl mx-auto text-center mb-12">
-                    Udforsk de virksomheder, der har opnået udmærkelsen "Danmarks Bedste Virksomhed®".
-                </p>
-
-                {/* Filter Section */}
-                <div className="bg-white p-6 md:p-8 rounded-lg shadow-md mb-12">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                        <input
-                            type="text"
-                            placeholder="Søg virksomhedsnavn..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full p-3 bg-white border border-slate-300 rounded-md text-black placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 lg:col-span-2"
-                        />
-                        <select
-                            value={selectedIndustry}
-                            onChange={(e) => setSelectedIndustry(e.target.value)}
-                            className="w-full p-3 bg-white border border-slate-300 rounded-md text-black"
-                        >
-                            <option value="">Alle brancher</option>
-                            {industries.map(i => <option key={i} value={i}>{i}</option>)}
-                        </select>
-                        <select
-                             value={selectedMunicipality}
-                             onChange={(e) => setSelectedMunicipality(e.target.value)}
-                            className="w-full p-3 bg-white border border-slate-300 rounded-md text-black"
-                        >
-                            <option value="">Alle kommuner</option>
-                             {municipalities.map(m => <option key={m} value={m}>{m}</option>)}
-                        </select>
-                        <select
-                            value={selectedYear}
-                            onChange={(e) => setSelectedYear(e.target.value)}
-                            className="w-full p-3 bg-white border border-slate-300 rounded-md text-black"
-                        >
-                            <option value="">Alle årgange</option>
-                            {years.map(y => <option key={y} value={y}>{y}</option>)}
-                        </select>
-                    </div>
-                </div>
-
-                {/* Winners Grid */}
-                {filteredWinners.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                        {filteredWinners.map(winner => (
-                            <a
-                                key={winner.id}
-                                href={winner.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col group overflow-hidden"
-                            >
-                                <div className="p-4 bg-slate-100 flex justify-center items-center h-40">
-                                    <img src={winner.logoUrl} alt={`${winner.name} logo`} className="max-h-full max-w-full object-contain" />
-                                </div>
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <h3 className="text-xl font-bold text-blue-900 group-hover:text-blue-700 transition-colors">{winner.name}</h3>
-                                    <p className="text-slate-600 mt-1">{winner.industry}</p>
-                                    <p className="text-slate-500 text-sm">{winner.municipality}</p>
-                                    <div className="mt-4 pt-4 border-t border-slate-200 flex-grow flex items-end">
-                                        <div>
-                                            <p className="text-xs font-semibold text-slate-500 uppercase">Udmærkelser</p>
-                                            <p className="text-sm font-medium text-slate-800">{winner.awards.join(', ')}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-16">
-                        <p className="text-slate-500 text-lg">Ingen virksomheder matcher din søgning.</p>
-                    </div>
-                )}
-            </section>
-        </div>
-    );
-};
-
-// --- PAGES: pages/SucceshistorierPage.tsx ---
-
-const SucceshistorierPage = () => (
-  <div className="container mx-auto px-6 py-20 text-center min-h-[50vh] flex flex-col justify-center items-center">
-    <h1 className="text-4xl font-bold text-blue-800 mb-4">Succeshistorier</h1>
-    <p className="text-slate-600 text-lg max-w-2xl">Læs inspirerende historier fra tidligere vindere. Snart vil vi dele interviews og artikler, der dykker ned i, hvad der gør disse virksomheder til de bedste i Danmark.</p>
-  </div>
-);
-
-// --- PAGES: pages/ProdukterOgYdelserPage.tsx ---
-
-const ProdukterOgYdelserPage = () => {
+const OmOsPage = () => {
     const productsData = [
       {
         id: 'physical',
@@ -745,285 +635,269 @@ const ProdukterOgYdelserPage = () => {
       },
       {
         id: 'trophy',
-        title: 'Fysisk Trofæ',
+        title: 'Eksklusivt trofæ',
         icon: StarIcon,
         content: {
-          heading: 'En eksklusiv udmærkelse',
-          description: 'Vores specialdesignede trofæ er en eksklusiv præmie, der symboliserer exceptionel præstation. Fremstillet i kvalitetsmaterialer med indgravering af jeres virksomhedsnavn og årstal, er dette trofæ det ultimative symbol på jeres plads i eliten af dansk erhvervsliv. En markant og prestigefyldt anerkendelse.',
-          imageUrl: 'https://picsum.photos/800/600?random=33',
+            heading: 'Den ultimative anerkendelse',
+            description: 'For de absolut førende virksomheder tilbyder vi et specialdesignet trofæ. Dette trofæ er et symbol på enestående præstation og lederskab i branchen. En fysisk manifestation af jeres status, der skaber stolthed og anerkendelse.',
+            imageUrl: 'https://picsum.photos/800/600?random=33',
         },
       },
       {
-        id: 'presentation',
+        id: 'story',
         title: 'Virksomhedspræsentation',
         icon: BookOpenIcon,
         content: {
-          heading: 'Fortæl jeres succeshistorie',
-          description: 'Få en professionelt udformet virksomhedspræsentation, der fremhæver jeres rejse og resultater. Denne præsentation er ideel til brug i marketingmateriale, på jeres hjemmeside eller som en del af jeres PR-strategi. Vi fortæller historien bag jeres succes og skaber et stærkt narrativ omkring jeres brand.',
-          imageUrl: 'https://picsum.photos/800/600?random=34',
-        },
-      },
+            heading: 'Fortæl jeres historie',
+            description: 'Vi tilbyder at producere en professionel artikel eller videoreportage om jeres virksomheds rejse. Del jeres succeshistorie med et bredere publikum gennem vores kanaler og styrk jeres brand som en markedsleder. En stærk historie skaber inspiration og tiltrækker talenter.',
+            imageUrl: 'https://picsum.photos/800/600?random=34',
+        }
+      }
     ];
 
-    const [activeTab, setActiveTab] = useState('physical');
-    const activeProduct = productsData.find(p => p.id === activeTab);
+    const [activeProduct, setActiveProduct] = useState(productsData[0].id);
+    const activeProductData = productsData.find(p => p.id === activeProduct);
 
     return (
-        <div className="bg-slate-50">
-            <section className="container mx-auto px-6 py-20">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h1 className="text-4xl font-bold text-blue-800 mb-4">Produkter og ydelser</h1>
-                    <p className="text-slate-600 text-lg">
-                        Vi tilbyder en række eksklusive produkter, der giver jer mulighed for at synliggøre jeres udmærkelse som "Danmarks Bedste Virksomhed®" og fejre jeres succes.
+        <div className="bg-white animate-fade-in">
+            {/* Hero Section */}
+            <section className="py-20 bg-slate-50">
+                <div className="container mx-auto px-6 text-center">
+                    <h1 className="text-4xl font-bold text-blue-900 mb-4">Om DVB ApS</h1>
+                    <p className="max-w-3xl mx-auto text-slate-600 leading-relaxed">
+                        Vi er dedikerede til at anerkende og fremhæve de virksomheder, der udgør rygraden i dansk erhvervsliv. Vores mission er at fejre succes, inspirere til vækst og skabe en platform, hvor de bedste kan blive anerkendt for deres exceptionelle bidrag.
                     </p>
                 </div>
+            </section>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-1 max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-2 mb-12">
-                    {productsData.map((product) => (
-                        <button
-                            key={product.id}
-                            onClick={() => setActiveTab(product.id)}
-                            className={`flex flex-col sm:flex-row items-center justify-center p-4 rounded-md text-center font-semibold transition-colors duration-300 ${
-                                activeTab === product.id
-                                    ? 'bg-blue-700 text-white shadow-md'
-                                    : 'bg-white text-slate-700 hover:bg-blue-50'
-                            }`}
-                        >
-                            <product.icon className="w-6 h-6 mb-2 sm:mb-0 sm:mr-3" />
-                            <span>{product.title}</span>
-                        </button>
-                    ))}
-                </div>
-
-                {activeProduct && (
-                    <div className="bg-white p-8 rounded-lg shadow-xl max-w-5xl mx-auto overflow-hidden">
-                         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-                            <div className="animate-fade-in">
-                                <h2 className="text-3xl font-bold text-blue-900 mb-4">{activeProduct.content.heading}</h2>
-                                <p className="text-slate-600 leading-relaxed">{activeProduct.content.description}</p>
-                            </div>
-                            <div className="animate-fade-in-right">
-                                <img
-                                    src={activeProduct.content.imageUrl}
-                                    alt={activeProduct.content.heading}
-                                    className="rounded-lg shadow-md w-full h-auto object-cover"
-                                />
+            {/* Products/Services Section */}
+            <section id="produkter" className="py-20">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-3xl font-bold text-blue-800 mb-12 text-center">Vores anerkendelsespakker</h2>
+                    <div className="max-w-5xl mx-auto">
+                        {/* Horizontal Tab Bar */}
+                        <div className="border-b border-slate-200">
+                            <div className="flex justify-center -mb-px space-x-2 sm:space-x-4 md:space-x-8" aria-label="Anerkendelsespakker">
+                                {productsData.map((product) => (
+                                    <button
+                                        key={product.id}
+                                        onClick={() => setActiveProduct(product.id)}
+                                        role="tab"
+                                        aria-selected={activeProduct === product.id}
+                                        className={`flex flex-col items-center py-3 px-2 md:px-4 font-medium text-sm md:text-base transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 rounded-t-lg ${
+                                            activeProduct === product.id
+                                                ? 'border-b-2 border-blue-600 text-blue-600'
+                                                : 'text-slate-500 hover:text-slate-800 border-b-2 border-transparent'
+                                        }`}
+                                    >
+                                        <product.icon className="w-6 h-6 mb-1" />
+                                        <span>{product.title}</span>
+                                    </button>
+                                ))}
                             </div>
                         </div>
+
+                        {/* Content Area */}
+                        <div className="mt-8">
+                            {activeProductData && (
+                                <div className="bg-white shadow-2xl rounded-lg overflow-hidden animate-fade-in">
+                                    <div className="grid grid-cols-1 md:grid-cols-2">
+                                        <div className="p-8 md:p-12 flex flex-col justify-center">
+                                            <h3 className="text-2xl font-bold text-blue-900 mb-4">{activeProductData.content.heading}</h3>
+                                            <p className="text-slate-600 leading-relaxed">{activeProductData.content.description}</p>
+                                        </div>
+                                        <div>
+                                            <img src={activeProductData.content.imageUrl} alt={activeProductData.content.heading} className="w-full h-64 md:h-full object-cover"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                )}
+                </div>
             </section>
         </div>
     );
 };
 
+// --- PAGES: pages/ShowroomPage.tsx ---
+
+const ShowroomPage = () => (
+    <div className="container mx-auto px-6 py-20 text-center animate-fade-in">
+        <h1 className="text-4xl font-bold text-blue-900 mb-4">Showroom</h1>
+        <p className="text-slate-600 max-w-2xl mx-auto">Her fremviser vi stolt nogle af de virksomheder, der har modtaget vores udmærkelse. Et galleri af Danmarks erhvervselite.</p>
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(9)].map((_, i) => (
+                <div key={i} className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <img src={`https://picsum.photos/400/300?random=${i+10}`} alt={`Virksomhed ${i+1}`} className="rounded-md mb-4 w-full h-48 object-cover" />
+                    <h3 className="text-xl font-bold text-blue-800">Eksempel Virksomhed {i+1}</h3>
+                    <p className="text-slate-500">Branche {i % 3 + 1}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+// --- PAGES: pages/SucceshistorierPage.tsx ---
+
+const SucceshistorierPage = () => (
+    <div className="bg-slate-50 py-20 animate-fade-in">
+        <div className="container mx-auto px-6">
+            <h1 className="text-4xl font-bold text-blue-900 mb-12 text-center">Succeshistorier</h1>
+            <div className="space-y-12 max-w-4xl mx-auto">
+                {[...Array(3)].map((_, i) => (
+                    <div key={i} className="md:flex items-center bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+                        <img src={`https://picsum.photos/600/400?random=${i+20}`} alt={`Historie ${i+1}`} className="md:w-1/2 w-full h-64 md:h-auto object-cover" />
+                        <div className="p-8">
+                            <h2 className="text-2xl font-bold text-blue-800 mb-4">Historien om Virksomhed {i+1}</h2>
+                            <p className="text-slate-600 leading-relaxed">
+                                Læs om hvordan Virksomhed {i+1} opnåede exceptionel vækst gennem innovation og dedikation, og hvordan anerkendelsen fra DVB ApS har styrket deres brand og markedsposition. En inspirerende fortælling om at nå toppen.
+                            </p>
+                            <a href="#" className="text-blue-600 hover:underline font-semibold mt-4 inline-block">Læs hele historien &rarr;</a>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+);
+
 // --- PAGES: pages/FAQPage.tsx ---
 
-const FAQPage = () => {
-  const faqData = [
-    {
-      question: 'Hvordan udvælges vinderne af "Danmarks Bedste Virksomheder®"?',
-      answer: 'Vores udvælgelse er datadrevet. Vi analyserer offentligt tilgængelige regnskabsdata for alle danske anpartsselskaber (ApS) og aktieselskaber (A/S). Virksomheder, der opfylder vores strenge kriterier for vækst, rentabilitet og soliditet over en toårig periode, kvalificerer sig til udmærkelsen.'
-    },
-    {
-      question: 'Hvad koster det at modtage udmærkelsen?',
-      answer: 'Selve udvælgelsen og anerkendelsen er gratis – det er en ære, man gør sig fortjent til baseret på resultater. Kvalificerede virksomheder får efterfølgende tilbudt at købe vores eksklusive diplom- og marketingpakke for at kunne synliggøre deres præstation.'
-    },
-    {
-      question: 'Hvilke fordele er der ved at blive kåret?',
-      answer: 'At blive kåret som "Danmarks Bedste Virksomhed®" er et stærkt kvalitetsstempel. Det styrker jeres brand over for kunder og samarbejdspartnere, øger medarbejderstolheden og kan være en fordel i rekrutteringsprocesser. Vores marketingpakke giver jer konkrete værktøjer til at promovere jeres succes.'
-    },
-    {
-      question: 'Er det obligatorisk at købe diplom-pakken, hvis man bliver udvalgt?',
-      answer: 'Nej, det er helt frivilligt. Udmærkelsen er jeres, uanset om I vælger at købe pakken eller ej. Pakken er et tilbud til dem, der ønsker at markedsføre deres anerkendelse aktivt.'
-    },
-    {
-      question: 'Kan man selv indstille sin virksomhed?',
-      answer: 'Nej, det er ikke muligt. Vores proces er 100% baseret på objektiv finansiel analyse. Vi gennemgår systematisk regnskaber for at finde de virksomheder, der lever op til kravene, for at sikre fuld uvildighed.'
-    },
-    {
-      question: 'Hvor ofte finder kåringen sted?',
-      answer: 'Processen kører løbende. Så snart en virksomheds nye årsregnskab bliver offentliggjort og opfylder vores kriterier, bliver den kvalificeret til at modtage den seneste årgangs udmærkelse.'
-    }
-  ];
-
-  const FAQItem = ({ question, answer }) => {
+const FaqItem = ({ question, children }) => {
     const [isOpen, setIsOpen] = useState(false);
-
     return (
-      <div className="border-b border-slate-200 py-4">
-        <button
-          className="w-full flex justify-between items-center text-left text-lg font-semibold text-slate-800 focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-expanded={isOpen}
-        >
-          <span>{question}</span>
-          <ChevronDownIcon
-            className={`w-6 h-6 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-          />
-        </button>
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 mt-4' : 'max-h-0'}`}
-        >
-          <p className="text-slate-600 leading-relaxed">
-            {answer}
-          </p>
+        <div className="border-b border-slate-200 py-4">
+            <button
+                className="w-full flex justify-between items-center text-left text-lg font-semibold text-slate-800 hover:text-blue-700 transition-colors"
+                onClick={() => setIsOpen(!isOpen)}
+                aria-expanded={isOpen}
+            >
+                <span>{question}</span>
+                <ChevronDownIcon className={`w-6 h-6 transform transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-700' : 'text-slate-500'}`} />
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen mt-4' : 'max-h-0'}`}>
+                <div className="text-slate-600 leading-relaxed">
+                    {children}
+                </div>
+            </div>
         </div>
-      </div>
     );
-  };
-
-  return (
-    <div className="bg-slate-50">
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h1 className="text-4xl font-bold text-blue-800 mb-4">Ofte Stillede Spørgsmål</h1>
-            <p className="text-slate-600 text-lg">
-              Få svar på de mest almindelige spørgsmål om vores udvælgelsesproces, fordele og meget mere.
-            </p>
-          </div>
-          <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
-            {faqData.map((faq, index) => (
-              <FAQItem key={index} question={faq.question} answer={faq.answer} />
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
 };
+
+const FAQPage = () => (
+    <div className="py-20 bg-slate-50 animate-fade-in">
+        <div className="container mx-auto px-6">
+            <h1 className="text-4xl font-bold text-blue-900 mb-12 text-center">Ofte Stillede Spørgsmål</h1>
+            <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+                <FaqItem question="Hvad koster det at deltage?">
+                    <p>Der er ingen omkostninger forbundet med at blive nomineret eller vinde prisen "Danmarks Bedste Virksomheder®". Vores forretningsmodel er baseret på salg af anerkendelsespakker (diplomer, trofæer etc.) til de vindende virksomheder, som de frivilligt kan vælge at købe for at markedsføre deres udmærkelse.</p>
+                </FaqItem>
+                <FaqItem question="Hvordan udvælges vinderne?">
+                    <p>Vores udvælgelse er datadrevet. Vi analyserer offentligt tilgængelige regnskabsdata fra alle danske anpartsselskaber (ApS) og aktieselskaber (A/S). Virksomheder, der opfylder vores fastsatte kriterier for vækst, rentabilitet og soliditet, kvalificerer sig automatisk til prisen.</p>
+                </FaqItem>
+                <FaqItem question="Skal man tilmelde sig for at være med?">
+                    <p>Nej, det er ikke nødvendigt at tilmelde sig. Processen er automatisk. Hvis jeres virksomhed opfylder kriterierne baseret på det seneste årsregnskab, vil I automatisk modtage en meddelelse fra os om, at I er blevet kåret som en af Danmarks Bedste Virksomheder®.</p>
+                </FaqItem>
+                <FaqItem question="Hvad får man ud af at købe et diplom?">
+                    <p>Et diplom eller en anden form for anerkendelse er et stærkt marketingværktøj. Det fungerer som et tredjeparts "kvalitetsstempel", der kan styrke jeres brand, øge troværdigheden over for kunder og partnere, og være med til at tiltrække og fastholde talenter. Det er en synlig fejring af jeres succes.</p>
+                </FaqItem>
+            </div>
+        </div>
+    </div>
+);
 
 // --- PAGES: pages/KontaktPage.tsx ---
 
 const KontaktPage = () => (
-  <div className="bg-white">
-    <section className="py-20">
-        <div className="container mx-auto px-6 text-center">
-        <h1 className="text-4xl font-bold text-blue-800 mb-4">Kontakt os</h1>
-        <p className="max-w-2xl mx-auto text-slate-600 mb-12 leading-relaxed">Har du spørgsmål til udmærkelsen, eller vil du vide mere om processen? Tøv ikke med at række ud til os. Vi ser frem til at høre fra dig.</p>
-        <div className="flex flex-col md:flex-row justify-center items-center gap-12 mt-8">
-            <div className="flex items-center text-lg text-slate-700 p-6 bg-slate-50 rounded-lg shadow-sm">
-            <EnvelopeIcon className="w-8 h-8 mr-4 text-blue-600"/>
-            <a href="mailto:info@dvbaps.dk" className="hover:text-blue-800 text-xl font-medium">info@dvbaps.dk</a>
-            </div>
-            <div className="flex items-center text-lg text-slate-700 p-6 bg-slate-50 rounded-lg shadow-sm">
-            <PhoneIcon className="w-8 h-8 mr-4 text-blue-600"/>
-            <span className="text-xl font-medium">+45 12 34 56 78</span>
+    <div className="py-20 bg-slate-50 animate-fade-in">
+        <div className="container mx-auto px-6">
+            <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+                <div>
+                    <h1 className="text-4xl font-bold text-blue-900 mb-4">Kontakt Os</h1>
+                    <p className="text-slate-600 mb-8 leading-relaxed">Har du spørgsmål til vores priser, kriterier, eller ønsker du at vide mere om DVB ApS? Tøv ikke med at række ud. Vores team er klar til at hjælpe dig.</p>
+                    <div className="space-y-4">
+                        <div className="flex items-center">
+                            <EnvelopeIcon className="w-6 h-6 text-blue-600 mr-4"/>
+                            <a href="mailto:info@dvbaps.dk" className="text-slate-700 hover:text-blue-600">info@dvbaps.dk</a>
+                        </div>
+                        <div className="flex items-center">
+                            <PhoneIcon className="w-6 h-6 text-blue-600 mr-4"/>
+                            <span className="text-slate-700">+45 12 34 56 78</span>
+                        </div>
+                        <div className="flex items-center">
+                            <MapPinIcon className="w-6 h-6 text-blue-600 mr-4"/>
+                            <span className="text-slate-700">Eksempelgade 123, 1234 København K</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block text-slate-700 font-semibold mb-2">Navn</label>
+                            <input type="text" id="name" name="name" className="w-full p-3 bg-slate-100 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-slate-700 font-semibold mb-2">Email</label>
+                            <input type="email" id="email" name="email" className="w-full p-3 bg-slate-100 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="message" className="block text-slate-700 font-semibold mb-2">Besked</label>
+                            <textarea id="message" name="message" rows="5" className="w-full p-3 bg-slate-100 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <button type="submit" className="w-full bg-blue-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors">Send Besked</button>
+                    </form>
+                </div>
             </div>
         </div>
-        </div>
-    </section>
-  </div>
+    </div>
 );
 
-
-// --- APP: App.tsx ---
+// --- APP ---
 
 const App = () => {
-  const [route, setRoute] = useState('#');
+    const [page, setPage] = useState(window.location.hash || '#');
 
-  useEffect(() => {
-    if (window.location.hash !== '#') {
-        window.location.hash = '#';
-    }
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash || '#';
+            setPage(hash);
+            window.scrollTo(0, 0);
+        };
 
-    const handleHashChange = () => {
-      setRoute(window.location.hash || '#');
-      window.scrollTo(0, 0);
+        handleHashChange(); // Set initial page
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
+    
+    // Simple hash-based router
+    const renderPage = () => {
+        switch (page) {
+            case '#om-os': return <OmOsPage />;
+            case '#showroom': return <ShowroomPage />;
+            case '#succeshistorier': return <SucceshistorierPage />;
+            case '#gala': return <GalaPage />;
+            case '#faq': return <FAQPage />;
+            case '#kontakt': return <KontaktPage />;
+            case '#':
+            default:
+                return <HomePage />;
+        }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    setRoute(window.location.hash || '#');
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
-
-  const renderPage = () => {
-    switch (route) {
-      case '#om-os':
-        return <OmOsPage />;
-      case '#showroom':
-        return <ShowroomPage />;
-      case '#succeshistorier':
-        return <SucceshistorierPage />;
-      case '#produkter':
-        return <ProdukterOgYdelserPage />;
-      case '#gala':
-        return <GalaPage />;
-      case '#faq':
-        return <FAQPage />;
-      case '#kontakt':
-        return <KontaktPage />;
-      case '#':
-      case '':
-        return <HomePage />;
-      default:
-        return <HomePage />;
-    }
-  };
-
-  return (
-    <div className="min-h-screen flex flex-col font-sans text-slate-800">
-      <Header />
-      <main className="flex-grow">
-        {renderPage()}
-      </main>
-      <Footer />
-    </div>
-  );
+    return (
+        <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">
+                {renderPage()}
+            </main>
+            <Footer />
+        </div>
+    );
 };
 
-// --- RENDERER: index.tsx ---
-
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
-}
-
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// Add simple animation styles
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-.animate-fade-in-down {
-    animation: fadeInDown 0.6s ease-out forwards;
-}
-.animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out 0.3s forwards;
-    opacity: 0;
-}
-.animate-fade-in-right {
-  animation: fadeInRight 0.5s ease-out forwards;
-}
-`;
-document.head.appendChild(style);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
 
     </script>
   </body>
